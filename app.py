@@ -39,26 +39,28 @@ def index():
             reviews = []
             for commentbox in commentboxes:
                 try:
+                    price = prod_html.find_all('div', {'class': "_16Jk6d"})[0].text
+                except:
+                    price = 'no price available'
+
+                try:
                     #name.encode(encoding='utf-8')
                     name = commentbox.div.div.find_all('p', {'class': '_2sc7ZR _2V5EHH'})[0].text
-
                 except:
                     name = 'No Name'
 
                 try:
                     #rating.encode(encoding='utf-8')
                     rating = commentbox.div.div.div.div.text
-
-
                 except:
                     rating = 'No Rating'
 
                 try:
                     #commentHead.encode(encoding='utf-8')
                     commentHead = commentbox.div.div.div.p.text
-
                 except:
                     commentHead = 'No Comment Heading'
+
                 try:
                     comtag = commentbox.div.div.find_all('div', {'class': ''})
                     #custComment.encode(encoding='utf-8')
@@ -66,7 +68,7 @@ def index():
                 except Exception as e:
                     print("Exception while creating dictionary: ",e)
 
-                mydict = {"Product": searchString, "Name": name, "Rating": rating, "CommentHead": commentHead,
+                mydict = {"Price" : price, "Product": searchString, "Name": name, "Rating": rating, "CommentHead": commentHead,
                           "Comment": custComment}
                 reviews.append(mydict)
             return render_template('results.html', reviews=reviews[0:(len(reviews)-1)])
